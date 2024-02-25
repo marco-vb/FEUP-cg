@@ -3,8 +3,8 @@
 ## Group T02G05
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| Duarte Gonçalves | 202108772 | up202108772@up.pt  |
-| Marco Vilas Boas | 202108774 | up202108774@up.pt  |
+| Duarte Gonçalves | 202108772 | up202108772@edu.fe.up.pt  |
+| Marco Vilas Boas | 202108774 | up202108774@edu.fe.up.pt  |
 
 ----
 
