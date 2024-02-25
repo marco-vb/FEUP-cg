@@ -1,10 +1,10 @@
 # CG 2023/2024
 
-## Group T0xG0y
+## Group T02G05
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Duarte Gonçalves | 202108772 | up202108772@up.pt  |
+| Marco Vilas Boas | 202108774 | up202108774@up.pt  |
 
 ----
 
