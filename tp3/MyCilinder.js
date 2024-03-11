@@ -7,7 +7,7 @@ import { CGFobject } from '../lib/CGF.js';
  * @param slices - Number of sides
  * @param stacks - Number of stacks
  */
-export class MyPrism extends CGFobject {
+export class MyCilinder extends CGFobject {
     constructor(scene, slices, stacks) {
         super(scene);
         this.slices = slices;
@@ -29,15 +29,7 @@ export class MyPrism extends CGFobject {
                 let x = Math.cos(cur_angle);
                 let y = Math.sin(cur_angle);
                 this.vertices.push(x, y, z);
-                this.vertices.push(x, y, z);
-
-                let nx = Math.cos(cur_angle + ang / 2);
-                let ny = Math.sin(cur_angle + ang / 2);
-                this.normals.push(nx, ny, 0);
-
-                nx = Math.cos(cur_angle - ang / 2);
-                ny = Math.sin(cur_angle - ang / 2);
-                this.normals.push(nx, ny, 0);
+                this.normals.push(x, y, 0);
 
                 cur_angle += ang;
             }
@@ -46,14 +38,14 @@ export class MyPrism extends CGFobject {
                 for (var i = 0; i < this.slices; i += 2) {
                     for (var j = i + 1; j < this.slices; j++) {
                         this.indices.push(
-                            2 * i + st * this.slices * 2,
-                            2 * j % (2 * this.slices) + st * this.slices * 2,
-                            2 * (j + 1) % (2 * this.slices) + st * this.slices * 2
+                            i + st * this.slices,
+                            j % this.slices + st * this.slices,
+                            (j + 1) % this.slices + st * this.slices
                         );
                         this.indices.push(
-                            2 * i + 1 + st * this.slices * 2,
-                            2 * (j + 1) % (2 * this.slices) + 1 + st * this.slices * 2,
-                            2 * j % (2 * this.slices) + 1 + st * this.slices * 2
+                            i + 1 + st * this.slices,
+                            (j + 1) % this.slices + 1 + st * this.slices,
+                            j % this.slices + 1 + st * this.slices
                         );
                     }
                 }
@@ -63,14 +55,14 @@ export class MyPrism extends CGFobject {
             if (st > 0) {
                 for (var i = 0; i < this.slices; i++) {
                     this.indices.push(
-                        2 * i + st * this.slices * 2,
-                        2 * i + (st - 1) * this.slices * 2,
-                        2 * (i + 1) % (2 * this.slices) + (st - 1) * this.slices * 2
+                        i + st * this.slices,
+                        i + (st - 1) * this.slices,
+                        (i + 1) % this.slices + (st - 1) * this.slices
                     );
                     this.indices.push(
-                        2 * (i + 1) % (2 * this.slices) + st * this.slices * 2,
-                        2 * i + st * this.slices * 2,
-                        2 * (i + 1) % (2 * this.slices) + (st - 1) * this.slices * 2
+                        (i + 1) % this.slices + st * this.slices,
+                        i + st * this.slices,
+                        (i + 1) % this.slices + (st - 1) * this.slices
                     );
                 }
             }
