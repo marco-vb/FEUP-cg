@@ -196,6 +196,7 @@ export class MyScene extends CGFscene {
             Custom: 4,
         };
     }
+
     display() {
         // ---- BEGIN Background, camera and axis setup
         // Clear image and depth buffer everytime we update the scene
@@ -220,8 +221,7 @@ export class MyScene extends CGFscene {
         this.pushMatrix();
         this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
 
-        if (this.displayNormals)
-            this.objects[this.selectedObject].enableNormalViz();
+        if (this.displayNormals) this.objects[this.selectedObject].enableNormalViz();
         else this.objects[this.selectedObject].disableNormalViz();
 
         this.objects[this.selectedObject].display();

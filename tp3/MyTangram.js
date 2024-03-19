@@ -81,7 +81,7 @@ export class MyTangram extends CGFobject {
             this.scene.pushMatrix();
             this.scene.multMatrix(translate);
             this.scene.customMaterial.apply();
-            // this.green.apply();
+            this.green.apply();
             this.diamond.display();
             this.scene.popMatrix();
 
@@ -133,5 +133,25 @@ export class MyTangram extends CGFobject {
             this.scene.popMatrix();
         }
         this.scene.popMatrix();
+    }
+
+    enableNormalViz() {
+        this.diamond.enableNormalViz();
+        this.parallelogram.enableNormalViz();
+        this.triangle.enableNormalViz();
+        this.triangleSmTop.enableNormalViz();
+        this.triangleSmBot.enableNormalViz();
+        this.triangleBigLft.enableNormalViz();
+        this.triangleBigRgt.enableNormalViz();
+    }
+
+    disableNormalViz() {
+        this.diamond.disableNormalViz();
+        this.parallelogram.disableNormalViz();
+        this.triangle.disableNormalViz();
+        this.triangleSmTop.disableNormalViz();
+        this.triangleSmBot.disableNormalViz();
+        this.triangleBigLft.disableNormalViz();
+        this.triangleBigRgt.disableNormalViz();
     }
 }
