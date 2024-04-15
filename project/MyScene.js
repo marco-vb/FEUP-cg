@@ -5,6 +5,7 @@ import { MyPanorama } from "./MyPanorama.js";
 import { MyStem } from "./MyStem.js";
 import { MyCilinder } from "./MyCilinder.js";
 import { MyReceptacle } from "./MyReceptacle.js";
+import { MyPetal } from "./MyPetal.js";
 
 /**
  * MyScene
@@ -39,6 +40,7 @@ export class MyScene extends CGFscene {
 
         this.receptacle = new MyReceptacle(this, 1);
 
+        this.petal = new MyPetal(this);
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.scaleFactor = 1;
@@ -104,8 +106,9 @@ export class MyScene extends CGFscene {
         this.panorama.update_position(position);
         this.panorama.display();
 
-        this.stem.display();
-        this.receptacle.display();
+        // this.stem.display();
+        // this.receptacle.display();
+        this.petal.display();
         // ---- END Primitive drawing section
     }
 }
