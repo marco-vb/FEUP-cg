@@ -8,10 +8,11 @@ import { CGFobject } from '../lib/CGF.js';
  * @param stacks - Number of stacks
  */
 export class MySphere extends CGFobject {
-    constructor(scene, slices = 20, stacks = 20) {
+    constructor(scene, inverted = false, slices = 20, stacks = 20) {
         super(scene);
         this.slices = slices;
         this.stacks = stacks;
+        this.inverted = inverted;
         this.initBuffers();
     }
 
@@ -35,6 +36,9 @@ export class MySphere extends CGFobject {
                 var y = Math.cos(phi);
                 var z = Math.sin(theta) * Math.sin(phi);
                 this.vertices.push(x, y, z);
+
+                if (this.inverted) x = -x, y = -y, z = -z;
+
                 this.normals.push(x, y, z);
                 this.texCoords.push(1 - s, t);
             }
@@ -42,8 +46,13 @@ export class MySphere extends CGFobject {
 
         for (var i = 0; i < this.stacks; i++) {
             for (var j = 0; j < this.slices; j++) {
-                this.indices.push(i * (this.slices + 1) + j, i * (this.slices + 1) + j + 1, (i + 1) * (this.slices + 1) + j);
-                this.indices.push(i * (this.slices + 1) + j + 1, (i + 1) * (this.slices + 1) + j + 1, (i + 1) * (this.slices + 1) + j);
+                if (this.inverted) {
+                    this.indices.push(i * (this.slices + 1) + j, (i + 1) * (this.slices + 1) + j, i * (this.slices + 1) + j + 1);
+                    this.indices.push(i * (this.slices + 1) + j + 1, (i + 1) * (this.slices + 1) + j, (i + 1) * (this.slices + 1) + j + 1);
+                } else {
+                    this.indices.push(i * (this.slices + 1) + j, i * (this.slices + 1) + j + 1, (i + 1) * (this.slices + 1) + j);
+                    this.indices.push(i * (this.slices + 1) + j + 1, (i + 1) * (this.slices + 1) + j + 1, (i + 1) * (this.slices + 1) + j);
+                }
             }
         }
 
