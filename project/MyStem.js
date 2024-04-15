@@ -19,8 +19,12 @@ export class MyStem extends CGFobject {
 
     display() {
         for (var i = 0; i < this.cilinders; i++) {
+            this.scene.pushMatrix();
+            for (var j = 0; j < i; j++) {
+                this.scene.translate(0, 1, 0);
+            }
             this.cilinder_list[i].display();
-            this.scene.translate(0, 1, 0);
+            this.scene.popMatrix();
         }
     }
 }

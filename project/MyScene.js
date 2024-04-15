@@ -4,6 +4,7 @@ import { MySphere } from "./MySphere.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MyStem } from "./MyStem.js";
 import { MyCilinder } from "./MyCilinder.js";
+import { MyReceptacle } from "./MyReceptacle.js";
 
 /**
  * MyScene
@@ -35,6 +36,8 @@ export class MyScene extends CGFscene {
         this.panorama = new MyPanorama(this, new CGFtexture(this, "images/panorama4.jpg"), position);
 
         this.stem = new MyStem(this, 5);
+
+        this.receptacle = new MyReceptacle(this, 1);
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -102,6 +105,7 @@ export class MyScene extends CGFscene {
         this.panorama.display();
 
         this.stem.display();
+        this.receptacle.display();
         // ---- END Primitive drawing section
     }
 }
