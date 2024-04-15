@@ -2,6 +2,8 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } fr
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyPanorama } from "./MyPanorama.js";
+import { MyStem } from "./MyStem.js";
+import { MyCilinder } from "./MyCilinder.js";
 
 /**
  * MyScene
@@ -32,6 +34,8 @@ export class MyScene extends CGFscene {
         var position = this.camera.position.slice(0, 3);
         this.panorama = new MyPanorama(this, new CGFtexture(this, "images/panorama4.jpg"), position);
 
+        this.stem = new MyStem(this, 5);
+
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.scaleFactor = 1;
@@ -41,8 +45,10 @@ export class MyScene extends CGFscene {
         // this.texture = new CGFtexture(this, "images/earth.jpg");
         this.appearance = new CGFappearance(this);
         // this.appearance.setTexture(this.texture);
-        // this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.appearance.setTextureWrap('REPEAT', 'REPEAT');
         this.appearance.setAmbient(1, 1, 1, 1);
+        this.appearance.setDiffuse(1, 1, 1, 1);
+        this.appearance.setSpecular(1, 1, 1, 1);
 
     }
     initLights() {
@@ -94,6 +100,8 @@ export class MyScene extends CGFscene {
         var position = this.camera.position.slice(0, 3);
         this.panorama.update_position(position);
         this.panorama.display();
+
+        this.stem.display();
         // ---- END Primitive drawing section
     }
 }
