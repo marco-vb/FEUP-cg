@@ -8,7 +8,7 @@ import { MySphere } from './MySphere.js';
  * @param radius - Radius of the Receptacle
  */
 export class MyReceptacle extends CGFobject {
-    constructor(scene, radius = 1) {
+    constructor(scene, radius = 0.25) {
         super(scene);
         this.radius = radius;
         this.sphere = new MySphere(scene);

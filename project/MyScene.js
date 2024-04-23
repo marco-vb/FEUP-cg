@@ -6,6 +6,7 @@ import { MyStem } from "./MyStem.js";
 import { MyCilinder } from "./MyCilinder.js";
 import { MyReceptacle } from "./MyReceptacle.js";
 import { MyPetal } from "./MyPetal.js";
+import { MyFlower } from "./MyFlower.js";
 
 /**
  * MyScene
@@ -41,6 +42,10 @@ export class MyScene extends CGFscene {
         this.receptacle = new MyReceptacle(this, 1);
 
         this.petal = new MyPetal(this);
+
+        this.flower = new MyFlower(this);
+
+        this.cylinder = new MyCilinder(this, 20, 20);
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.scaleFactor = 1;
@@ -108,7 +113,10 @@ export class MyScene extends CGFscene {
 
         // this.stem.display();
         // this.receptacle.display();
-        this.petal.display();
+        // this.petal.display();
+        // this.cylinder.display();
+
+        this.flower.display();
         // ---- END Primitive drawing section
     }
 }

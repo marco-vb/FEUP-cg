@@ -8,10 +8,11 @@ import { CGFobject } from '../lib/CGF.js';
  * @param stacks - Number of stacks
  */
 export class MyCilinder extends CGFobject {
-    constructor(scene, slices = 20, stacks = 20) {
+    constructor(scene, radius = 0.25, slices = 20, stacks = 20) {
         super(scene);
         this.slices = slices;
         this.stacks = stacks;
+        this.radius = radius;
         this.initBuffers();
     }
 
@@ -24,11 +25,11 @@ export class MyCilinder extends CGFobject {
         var theta = 0;
         var thetaInc = (2 * Math.PI) / this.slices;
 
-        var s = 0, t = 0;
+        var s = 0;
 
         for (var i = 0; i <= this.slices; i++, theta += thetaInc, s += 1 / this.slices) {
-            var x = Math.cos(theta);
-            var z = Math.sin(theta);
+            var x = this.radius * Math.cos(theta);
+            var z = this.radius * Math.sin(theta);
 
             this.vertices.push(x, 0, z);
             this.vertices.push(x, 1, z);
