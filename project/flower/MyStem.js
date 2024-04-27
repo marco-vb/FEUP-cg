@@ -1,5 +1,5 @@
-import { CGFobject } from '../lib/CGF.js';
-import { MyCilinder } from './MyCilinder.js';
+import { CGFobject } from '../../lib/CGF.js';
+import { MyCilinder } from '../shapes/MyCilinder.js';
 
 /**
  * MyStem

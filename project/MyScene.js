@@ -1,12 +1,13 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
-import { MyPlane } from "./MyPlane.js";
-import { MySphere } from "./MySphere.js";
+import { MyPlane } from "./shapes/MyPlane.js";
+import { MySphere } from "./shapes/MySphere.js";
 import { MyPanorama } from "./MyPanorama.js";
-import { MyStem } from "./MyStem.js";
-import { MyCilinder } from "./MyCilinder.js";
-import { MyReceptacle } from "./MyReceptacle.js";
-import { MyPetal } from "./MyPetal.js";
-import { MyFlower } from "./MyFlower.js";
+import { MyStem } from "./flower/MyStem.js";
+import { MyCilinder } from "./shapes/MyCilinder.js";
+import { MyReceptacle } from "./flower/MyReceptacle.js";
+import { MyPetal } from "./flower/MyPetal.js";
+import { MyFlower } from "./flower/MyFlower.js";
+import { MyGarden } from "./flower/MyGarden.js";
 
 /**
  * MyScene
@@ -37,15 +38,8 @@ export class MyScene extends CGFscene {
         var position = this.camera.position.slice(0, 3);
         this.panorama = new MyPanorama(this, new CGFtexture(this, "images/panorama4.jpg"), position);
 
-        this.stem = new MyStem(this, 5);
+        this.garden = new MyGarden(this, 5, 5);
 
-        this.receptacle = new MyReceptacle(this, 1);
-
-        this.petal = new MyPetal(this);
-
-        this.flower = new MyFlower(this);
-
-        this.cylinder = new MyCilinder(this, 20, 20);
         //Objects connected to MyInterface
         this.displayAxis = true;
         this.scaleFactor = 1;
@@ -111,12 +105,7 @@ export class MyScene extends CGFscene {
         this.panorama.update_position(position);
         this.panorama.display();
 
-        // this.stem.display();
-        // this.receptacle.display();
-        // this.petal.display();
-        // this.cylinder.display();
-
-        this.flower.display();
+        this.garden.display();
         // ---- END Primitive drawing section
     }
 }
