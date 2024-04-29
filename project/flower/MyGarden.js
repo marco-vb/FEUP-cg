@@ -24,7 +24,6 @@ export class MyGarden extends CGFobject {
     }
 
     display() {
-        this.scene.enableTextures(false);
         for (var i = 0; i < this.rows; i++) {
             for (var j = 0; j < this.cols; j++) {
                 this.scene.pushMatrix();
@@ -33,6 +32,5 @@ export class MyGarden extends CGFobject {
                 this.scene.popMatrix();
             }
         }
-        this.scene.enableTextures(true);
     }
 }

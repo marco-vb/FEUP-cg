@@ -9,13 +9,13 @@ import { MyLeaf } from './MyLeaf.js';
  * @param height - Height of the stem
  */
 export class MyStem extends CGFobject {
-    constructor(scene, cilinders = 1, radius = 0.1, leaves = true) {
+    constructor(scene, cilinders = 1, radius = 0.1, inclination = 0.05, leaves = true) {
         super(scene);
         this.cilinders = cilinders;
         this.cilinder_list = [];
         this.leaves = leaves;
         this.leaves_list = [];
-        this.inclination = Math.random() * Math.PI / 16;
+        this.inclination = inclination;
         for (var i = 0; i < cilinders; i++) {
             this.cilinder_list.push(new MyCilinder(scene, radius));
             if (leaves && i > 0) {

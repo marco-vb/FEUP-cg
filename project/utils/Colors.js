@@ -3,6 +3,9 @@ import { CGFappearance } from "../../lib/CGF.js";
 class Colors {
     constructor(scene) {
         this.scene = scene;
+
+        this.colors = ["yellow", "green", "pink", "dark_green"];
+
         this.yellow = new CGFappearance(scene);
         this.yellow.setAmbient(1, 1, 0, 1);
         this.yellow.setDiffuse(1, 1, 0, 1);
@@ -42,6 +45,15 @@ class Colors {
 
     apply_dark_green() {
         this.dark_green.apply();
+    }
+
+    apply_random() {
+        const color = this.colors[Math.floor(Math.random() * this.colors.length)];
+        this.apply(color);
+    }
+
+    random_color() {
+        return this.colors[Math.floor(Math.random() * this.colors.length)];
     }
 
     apply(color) {
