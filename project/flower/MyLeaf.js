@@ -10,15 +10,28 @@ import { MyTriangle } from '../shapes/MyTriangle.js';
  * @param stacks - Number of stacks
  */
 export class MyLeaf extends CGFobject {
-    constructor(scene) {
+    constructor(scene, stem_radius = 0.2) {
         super(scene);
+
+        this.stem_radius = 2 * stem_radius;
+        this.random = Math.random() * Math.PI * 2;
+
+        // this ring is to make sure the various cylinders of the stem don't appear disconnected
+        this.ring = new MyCilinder(scene);
         this.cilinder = new MyCilinder(scene, 0.05);
         this.up = new MyTriangle(scene);
         this.down = new MyTriangle(scene);
-        this.random = Math.random() * Math.PI * 2;
     }
 
     display() {
+        this.scene.pushMatrix();
+        {
+            this.scene.scale(this.stem_radius, 0.1, this.stem_radius);
+            this.scene.translate(0, -0.5, 0);
+            this.ring.display();
+        }
+        this.scene.popMatrix();
+
         this.scene.pushMatrix();
         {
             this.scene.rotate(this.random, 0, 1, 0);

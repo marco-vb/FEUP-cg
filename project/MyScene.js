@@ -38,6 +38,7 @@ export class MyScene extends CGFscene {
         var position = this.camera.position.slice(0, 3);
         this.panorama = new MyPanorama(this, new CGFtexture(this, "images/panorama4.jpg"), position);
 
+        this.flower = new MyFlower(this);
         this.garden = new MyGarden(this, 5, 5);
 
         //Objects connected to MyInterface
@@ -105,6 +106,7 @@ export class MyScene extends CGFscene {
         this.panorama.update_position(position);
         this.panorama.display();
 
+        // this.flower.display();
         this.garden.display();
         // ---- END Primitive drawing section
     }
