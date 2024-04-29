@@ -4,7 +4,7 @@ class Colors {
     constructor(scene) {
         this.scene = scene;
 
-        this.colors = ["yellow", "green", "pink", "dark_green"];
+        this.colors = ["yellow", "green", "pink", "dark_green", "gray"];
 
         this.yellow = new CGFappearance(scene);
         this.yellow.setAmbient(1, 1, 0, 1);
@@ -29,6 +29,12 @@ class Colors {
         this.dark_green.setDiffuse(0, 0.5, 0, 1);
         this.dark_green.setSpecular(0, 0.5, 0, 1);
         this.dark_green.setShininess(10.0);
+
+        this.gray = new CGFappearance(scene);
+        this.gray.setAmbient(0.5, 0.5, 0.5, 1);
+        this.gray.setDiffuse(0.5, 0.5, 0.5, 1);
+        this.gray.setSpecular(0.5, 0.5, 0.5, 1);
+        this.gray.setShininess(10.0);
     }
 
     apply_yellow() {
@@ -45,6 +51,10 @@ class Colors {
 
     apply_dark_green() {
         this.dark_green.apply();
+    }
+
+    apply_gray() {
+        this.gray.apply();
     }
 
     apply_random() {
@@ -69,6 +79,9 @@ class Colors {
                 break;
             case "dark_green":
                 this.apply_dark_green();
+                break;
+            case "gray":
+                this.apply_gray();
                 break;
             default:
                 break;

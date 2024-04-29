@@ -12,7 +12,6 @@ export class MyPetal extends CGFobject {
         this.down = new MyTriangle(scene);
         this.up = new MyTriangle(scene);
         this.angle = angle;
-        this.initBuffers();
     }
 
     display() {

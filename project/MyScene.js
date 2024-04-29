@@ -8,6 +8,7 @@ import { MyReceptacle } from "./flower/MyReceptacle.js";
 import { MyPetal } from "./flower/MyPetal.js";
 import { MyFlower } from "./flower/MyFlower.js";
 import { MyGarden } from "./flower/MyGarden.js";
+import { MyRock } from "./rocks/MyRock.js";
 
 /**
  * MyScene
@@ -40,6 +41,7 @@ export class MyScene extends CGFscene {
 
         this.flower = new MyFlower(this);
         this.garden = new MyGarden(this, 5, 5);
+        this.rock = new MyRock(this);
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -107,7 +109,8 @@ export class MyScene extends CGFscene {
         this.panorama.display();
 
         // this.flower.display();
-        this.garden.display();
+        // this.garden.display();
+        this.rock.display();
         // ---- END Primitive drawing section
     }
 }

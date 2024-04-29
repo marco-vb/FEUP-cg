@@ -8,11 +8,12 @@ import { CGFobject } from '../../lib/CGF.js';
  * @param stacks - Number of stacks
  */
 export class MySphere extends CGFobject {
-    constructor(scene, inverted = false, slices = 20, stacks = 20) {
+    constructor(scene, inverted = false, slices = 20, stacks = 20, deformed = false) {
         super(scene);
         this.slices = slices;
         this.stacks = stacks;
         this.inverted = inverted;
+        this.deformed = deformed;
         this.initBuffers();
     }
 
@@ -35,6 +36,13 @@ export class MySphere extends CGFobject {
                 var x = Math.cos(theta) * Math.sin(phi);
                 var y = Math.cos(phi);
                 var z = Math.sin(theta) * Math.sin(phi);
+
+                if (this.deformed && j > 0 && j < this.slices) {
+                    x += Math.random() * 0.2 - 0.1;
+                    y += Math.random() * 0.2 - 0.1;
+                    z += Math.random() * 0.2 - 0.1;
+                }
+
                 this.vertices.push(x, y, z);
 
                 if (this.inverted) x = -x, y = -y, z = -z;
