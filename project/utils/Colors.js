@@ -35,6 +35,18 @@ class Colors {
         this.gray.setDiffuse(0.5, 0.5, 0.5, 1);
         this.gray.setSpecular(0.5, 0.5, 0.5, 1);
         this.gray.setShininess(10.0);
+
+        this.black = new CGFappearance(scene);
+        this.black.setAmbient(0, 0, 0, 1);
+        this.black.setDiffuse(0, 0, 0, 1);
+        this.black.setSpecular(0, 0, 0, 1);
+        this.black.setShininess(10.0);
+
+        this.dark_brown = new CGFappearance(scene);
+        this.dark_brown.setAmbient(0.1, 0.05, 0, 1);
+        this.dark_brown.setDiffuse(0.1, 0.05, 0, 1);
+        this.dark_brown.setSpecular(0.1, 0.05, 0, 1);
+        this.dark_brown.setShininess(10.0);
     }
 
     apply_yellow() {
@@ -55,6 +67,14 @@ class Colors {
 
     apply_gray() {
         this.gray.apply();
+    }
+
+    apply_black() {
+        this.black.apply();
+    }
+
+    apply_dark_brown() {
+        this.dark_brown.apply();
     }
 
     apply_random() {
@@ -82,6 +102,12 @@ class Colors {
                 break;
             case "gray":
                 this.apply_gray();
+                break;
+            case "black":
+                this.apply_black();
+                break;
+            case "dark_brown":
+                this.apply_dark_brown();
                 break;
             default:
                 break;

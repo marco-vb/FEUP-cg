@@ -20,10 +20,10 @@ export class MyRock extends CGFobject {
         this.rock_appereance = new CGFappearance(this.scene);
         this.rock_appereance.setTexture(this.rock_texture);
         this.rock_appereance.setTextureWrap('REPEAT', 'REPEAT');
-        this.rock_appereance.setAmbient(0.7, 0.7, 0.7, 0.7);
-        this.rock_appereance.setDiffuse(0.7, 0.7, 0.7, 0.7);
-        this.rock_appereance.setSpecular(0.7, 0.7, 0.7, 0.7);
-        this.rock_appereance.setShininess(10.0);
+        this.rock_appereance.setAmbient(0.7, 0.7, 0.7, 1);
+        this.rock_appereance.setDiffuse(0.7, 0.7, 0.7, 1);
+        this.rock_appereance.setSpecular(0.3, 0.3, 0.3, 1);
+        this.rock_appereance.setShininess(5.0);
     }
 
     display() {
