@@ -13,7 +13,7 @@ export class MyBee extends CGFobject {
     super(scene);
 
     // Scale
-    this.scale = 1;
+    this.scale = 0.5;
 
     // Position
     this.x = x;
@@ -299,14 +299,16 @@ export class MyBee extends CGFobject {
     this.scene.popMatrix();
   }
 
-  // Update bee position and orientation
-  update(t) {
+  // Update bee
+  update(t, scaleFactor, speedFactor) {
     if (this.lastUpdate == 0) {
       this.lastUpdate = t;
       return;
     }
 
-    this.handleKeyDown();
+    this.scale = scaleFactor;
+
+    this.handleKeyDown(speedFactor);
 
     let delta = (t - this.lastUpdate) / 1000;
     this.lastUpdate = t;
@@ -341,18 +343,18 @@ export class MyBee extends CGFobject {
   }
 
   // Handle key presses to control bee movement
-  handleKeyDown() {
+  handleKeyDown(speedFactor) {
     if (this.scene.gui.isKeyPressed("KeyW")) {
-      this.accelerate(0.2);
+      this.accelerate(speedFactor);
     }
     if (this.scene.gui.isKeyPressed("KeyS")) {
-      this.accelerate(-0.2);
+      this.accelerate(-speedFactor);
     }
     if (this.scene.gui.isKeyPressed("KeyA")) {
-      this.turn(0.2);
+      this.turn(speedFactor);
     }
     if (this.scene.gui.isKeyPressed("KeyD")) {
-      this.turn(-0.2);
+      this.turn(-speedFactor);
     }
     if (this.scene.gui.isKeyPressed("KeyR")) {
       this.reset();
