@@ -42,6 +42,11 @@ export class MyBee extends CGFobject {
 
     // Wing animation
     this.wingAngle = 0;
+
+    // Pollen
+    this.hasPollen = false;
+    this.pickingUpPollen = false;
+    this.droppingPollen = false;
   }
 
   // Initialize materials
@@ -91,7 +96,7 @@ export class MyBee extends CGFobject {
   display() {
     this.scene.pushMatrix();
     this.scene.translate(this.x, this.y, this.z);
-    this.scene.scale(this.scale, this.scale, this.scale);
+    this.scene.scale(this.scale * 0.5, this.scale * 0.5, this.scale * 0.5);
     this.scene.rotate(this.orientation, 0, 1, 0);
     this.displayBee();
     this.scene.popMatrix();
@@ -322,8 +327,13 @@ export class MyBee extends CGFobject {
     let dx = this.speed * Math.sin(this.orientation) * delta;
     let dz = this.speed * Math.cos(this.orientation) * delta;
 
-    this.x += dx;
-    this.z += dz;
+    if (this.pickingUpPollen) {
+      this.pickUpPollen(t);
+      return;
+    } else {
+      this.x += dx;
+      this.z += dz;
+    }
 
     // Animate bee up and down
     this.y = Math.sin((t / 1000) * 2);
@@ -368,5 +378,44 @@ export class MyBee extends CGFobject {
     if (this.scene.gui.isKeyPressed("KeyR")) {
       this.reset();
     }
+    if (this.scene.gui.isKeyPressed("KeyF")) {
+      this.pickingUpPollen = true;
+    }
+  }
+
+  // Pick up pollen
+  pickUpPollen(t) {
+    let pollenPosition = { x: 5, y: 5, z: 5 };
+    
+    if (this.hasPollen) {
+      this.y = Math.sin((t / 1000) * 2) + pollenPosition.y;
+      return;
+    }
+
+
+    let dx = pollenPosition.x - this.x;
+    let dz = pollenPosition.z - this.z;
+
+    let distance = Math.sqrt(dx * dx + dz * dz);
+
+    if (distance < 0.5) {
+      let dy = pollenPosition.y - this.y;
+      this.y += dy * 0.5;
+
+      if (dy < 0.1) {
+        this.hasPollen = true;
+      }
+
+      return;
+    }
+
+    let orientation = Math.atan2(dx, dz);
+
+    this.orientation = orientation;
+
+    this.x += 1 * Math.sin(orientation);
+    this.z += 1 * Math.cos(orientation);
+
+    return;
   }
 }
