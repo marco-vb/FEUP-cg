@@ -39,6 +39,9 @@ export class MyBee extends CGFobject {
 
     // Animation
     this.lastUpdate = 0;
+
+    // Wing animation
+    this.wingAngle = 0;
   }
 
   // Initialize materials
@@ -253,10 +256,10 @@ export class MyBee extends CGFobject {
     this.wing_appearance.apply();
     this.scene.pushMatrix();
     {
-      this.scene.translate(1.5, 2.5, 2);
-      this.scene.rotate(Math.PI / 6, 0, 1, 0);
+      this.scene.rotate(this.wingAngle / 6, 0, 1, 0);
       this.scene.rotate(Math.PI / 16, 1, 0, 0);
-      this.scene.scale(0.1, 1, 2);
+      this.scene.translate(0.5, 2.5, 2);
+      this.scene.scale(0.1, 1, 2.5);
 
       this.wing.display();
     }
@@ -265,10 +268,10 @@ export class MyBee extends CGFobject {
     // Top right wing
     this.scene.pushMatrix();
     {
-      this.scene.translate(1.5, 2.5, -2);
-      this.scene.rotate(-Math.PI / 6, 0, 1, 0);
+      this.scene.rotate(-this.wingAngle / 6, 0, 1, 0);
       this.scene.rotate(-Math.PI / 16, 1, 0, 0);
-      this.scene.scale(0.1, 1, 2);
+      this.scene.translate(0.5, 2.5, -2);
+      this.scene.scale(0.1, 1, 2.5);
 
       this.wing.display();
     }
@@ -277,10 +280,11 @@ export class MyBee extends CGFobject {
     // Bottom left wing
     this.scene.pushMatrix();
     {
-      this.scene.translate(1.25, 1.25, 1.75);
-      this.scene.rotate(Math.PI / 6, 0, 1, 0);
+      this.scene.rotate(this.wingAngle / 6, 0, 1, 0);
       this.scene.rotate(Math.PI / 6, 1, 0, 0);
+      this.scene.translate(0.25, 2, 1);
       this.scene.scale(0.05, 0.5, 1.5);
+
       this.wing.display();
     }
     this.scene.popMatrix();
@@ -288,10 +292,11 @@ export class MyBee extends CGFobject {
     // Bottom right wing
     this.scene.pushMatrix();
     {
-      this.scene.translate(1.25, 1.25, -1.75);
-      this.scene.rotate(-Math.PI / 6, 0, 1, 0);
+      this.scene.rotate(-this.wingAngle / 6, 0, 1, 0);
       this.scene.rotate(-Math.PI / 6, 1, 0, 0);
+      this.scene.translate(0.25, 2, -1);
       this.scene.scale(0.05, 0.5, 1.5);
+
       this.wing.display();
     }
     this.scene.popMatrix();
@@ -300,6 +305,7 @@ export class MyBee extends CGFobject {
   }
 
   // Update bee
+  // Need to animate wings as well
   update(t, scaleFactor, speedFactor) {
     if (this.lastUpdate == 0) {
       this.lastUpdate = t;
@@ -321,11 +327,14 @@ export class MyBee extends CGFobject {
 
     // Animate bee up and down
     this.y = Math.sin((t / 1000) * 2);
+
+    // Animate wings
+    this.wingAngle = (Math.sin((t / 1000) * 10) * Math.PI) / 2;
   }
 
   // Adjust orientation
   turn(val) {
-    this.orientation += val;
+    this.orientation += val * 0.25;
   }
 
   // Accelerate movement
