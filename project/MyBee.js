@@ -46,7 +46,7 @@ export class MyBee extends CGFobject {
     // Pollen
     this.hasPollen = false;
     this.pickingUpPollen = false;
-    this.droppingPollen = false;
+    this.resumingAfterPollen = false;
   }
 
   // Initialize materials
@@ -327,6 +327,11 @@ export class MyBee extends CGFobject {
     let dx = this.speed * Math.sin(this.orientation) * delta;
     let dz = this.speed * Math.cos(this.orientation) * delta;
 
+    if (this.resumingAfterPollen) {
+      this.continueMovement();
+      return;
+    }
+
     if (this.pickingUpPollen) {
       this.pickUpPollen(t);
       return;
@@ -365,33 +370,44 @@ export class MyBee extends CGFobject {
   handleKeyDown(speedFactor) {
     if (this.scene.gui.isKeyPressed("KeyW")) {
       this.accelerate(speedFactor);
+      this.resumingAfterPollen = false;
     }
     if (this.scene.gui.isKeyPressed("KeyS")) {
       this.accelerate(-speedFactor);
+      this.resumingAfterPollen = false;
     }
     if (this.scene.gui.isKeyPressed("KeyA")) {
       this.turn(speedFactor);
+      this.resumingAfterPollen = false;
     }
     if (this.scene.gui.isKeyPressed("KeyD")) {
       this.turn(-speedFactor);
+      this.resumingAfterPollen = false;
     }
     if (this.scene.gui.isKeyPressed("KeyR")) {
       this.reset();
+      this.resumingAfterPollen = false;
     }
-    if (this.scene.gui.isKeyPressed("KeyF")) {
+    if (this.scene.gui.isKeyPressed("KeyF") && !this.hasPollen) {
       this.pickingUpPollen = true;
+      this.previousY = this.y;
+      this.resumingAfterPollen = false;
+    }
+    if (this.scene.gui.isKeyPressed("KeyO")) {
+      console.log("Pressed O");
+      this.resumingAfterPollen = true;
+      this.pickingUpPollen = false;
     }
   }
 
   // Pick up pollen
   pickUpPollen(t) {
-    let pollenPosition = { x: 5, y: 5, z: 5 };
-    
+    let pollenPosition = { x: 5, y: -5, z: 5 };
+
     if (this.hasPollen) {
-      this.y = Math.sin((t / 1000) * 2) + pollenPosition.y;
+      this.y = Math.sin((t / 1000) * 2) + pollenPosition.y + 0.5;
       return;
     }
-
 
     let dx = pollenPosition.x - this.x;
     let dz = pollenPosition.z - this.z;
@@ -400,7 +416,7 @@ export class MyBee extends CGFobject {
 
     if (distance < 0.5) {
       let dy = pollenPosition.y - this.y;
-      this.y += dy * 0.5;
+      this.y += dy * 0.1;
 
       if (dy < 0.1) {
         this.hasPollen = true;
@@ -411,11 +427,32 @@ export class MyBee extends CGFobject {
 
     let orientation = Math.atan2(dx, dz);
 
+    this.previousDx = dx;
+    this.previousDz = dz;
+    this.previousSpeed = this.speed;
+
     this.orientation = orientation;
 
     this.x += 1 * Math.sin(orientation);
     this.z += 1 * Math.cos(orientation);
 
     return;
+  }
+
+  continueMovement() {
+    let deltaY = this.previousY - this.y;
+    console.log(deltaY);
+    if (Math.abs(deltaY) > 0.2) {
+      this.y += deltaY * 0.2;
+      return;
+    }
+
+    this.speed = Math.max(this.previousSpeed, 1);
+
+    this.normal = Math.hypot(this.previousDx, this.previousDz);
+    this.x += (this.previousDx / this.normal) * this.speed;
+    this.z += (this.previousDz / this.normal) * this.speed;
+
+    this.y = this.previousY;
   }
 }
