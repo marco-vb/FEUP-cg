@@ -42,7 +42,7 @@ export class MyBee extends CGFobject {
   }
 
   // Initialize materials
-  initMaterials(scene) {
+  initMaterials() {
     this.textures = new Textures(this.scene);
     this.colors = new Colors(this.scene);
 
