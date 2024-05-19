@@ -22,7 +22,7 @@ export class MySingleGrass extends CGFobject {
     }
 
     initBuffers () {
-        const layers = 10;
+        const layers = 30;
         let step = 1 / layers,
             xl = -1,
             xr = 1,

@@ -14,7 +14,9 @@ void main() {
 
     float windStrength = 0.1; 
     float windFrequency = 3.0;
-    float displacement = windStrength * sin(aVertexPosition.y * windFrequency + time);
+    float displacement = windStrength * sin(aVertexPosition.y * windFrequency + time) - aVertexPosition.y / 10.0;
+
+    if (aVertexPosition.y == 0.0) displacement = 0.0;
 
     vec3 displacedPosition = aVertexPosition;
     displacedPosition.z += displacement;

@@ -134,7 +134,7 @@ export class MyScene extends CGFscene {
 
         if (this.displayGarden) this.garden.display();
         if (this.displayRockSet) this.rock_set.display();
-        if (this.displayBee) this.bee.display();
+        // if (this.displayBee) this.bee.display();
 
         var position = this.camera.position.slice(0, 3);
         this.panorama.update_position(position);
