@@ -327,6 +327,11 @@ export class MyBee extends CGFobject {
     let dx = this.speed * Math.sin(this.orientation) * delta;
     let dz = this.speed * Math.cos(this.orientation) * delta;
 
+    if (this.droppingPollen) {
+      this.returnToHive(t);
+      return;
+    }
+
     if (this.resumingAfterPollen) {
       this.continueMovement();
       return;
@@ -393,8 +398,12 @@ export class MyBee extends CGFobject {
       this.previousY = this.y;
       this.resumingAfterPollen = false;
     }
-    if (this.scene.gui.isKeyPressed("KeyO")) {
-      console.log("Pressed O");
+    if (this.scene.gui.isKeyPressed("KeyO") && this.hasPollen) {
+      this.droppingPollen = true;
+      this.resumingAfterPollen = false;
+      this.hasPollen = false;
+    }
+    if (this.scene.gui.isKeyPressed("KeyP") && this.hasPollen) {
       this.resumingAfterPollen = true;
       this.pickingUpPollen = false;
     }
@@ -411,12 +420,14 @@ export class MyBee extends CGFobject {
 
     let dx = pollenPosition.x - this.x;
     let dz = pollenPosition.z - this.z;
+    console.log(dx, dz);
+    l;
 
-    let distance = Math.sqrt(dx * dx + dz * dz);
+    let distance = Math.hypot(dx, dz);
 
     if (distance < 0.5) {
       let dy = pollenPosition.y - this.y;
-      this.y += dy * 0.1;
+      this.y += (dy / distance) * 0.2;
 
       if (dy < 0.1) {
         this.hasPollen = true;
@@ -426,22 +437,23 @@ export class MyBee extends CGFobject {
     }
 
     let orientation = Math.atan2(dx, dz);
+    this.orientation = orientation;
 
     this.previousDx = dx;
     this.previousDz = dz;
     this.previousSpeed = this.speed;
 
-    this.orientation = orientation;
+    console.log(dx / this.distance, dz / this.distance);
 
-    this.x += 1 * Math.sin(orientation);
-    this.z += 1 * Math.cos(orientation);
+    this.x += (dx / this.distance) * 0.5;
+    this.z += (dz / this.distance) * 0.5;
 
     return;
   }
 
   continueMovement() {
     let deltaY = this.previousY - this.y;
-    console.log(deltaY);
+
     if (Math.abs(deltaY) > 0.2) {
       this.y += deltaY * 0.2;
       return;
@@ -454,5 +466,32 @@ export class MyBee extends CGFobject {
     this.z += (this.previousDz / this.normal) * this.speed;
 
     this.y = this.previousY;
+  }
+
+  returnToHive(t) {
+    let hivePosition = { x: 0, y: 10, z: 0 };
+
+    if (this.inHive) {
+      this.y = Math.sin((t / 1000) * 2) + hivePosition.y + 0.5;
+      return;
+    }
+
+    let dx = hivePosition.x - this.x;
+    let dy = hivePosition.y - this.y;
+    let dz = hivePosition.z - this.z;
+
+    let distance = Math.hypot(dx, dy, dz);
+
+    if (distance < 0.5) {
+      this.inHive = true;
+      return;
+    }
+
+    let orientation = Math.atan2(dx, dz);
+    this.orientation = orientation;
+
+    this.x += (dx / distance) * 0.5;
+    this.y += (dy / distance) * 0.5;
+    this.z += (dz / distance) * 0.5;
   }
 }
