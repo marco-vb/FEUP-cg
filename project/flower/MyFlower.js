@@ -1,11 +1,10 @@
-import { CGFobject } from '../../lib/CGF.js';
+import { CGFobject, CGFappearance } from '../../lib/CGF.js';
 import { MyPetal } from './MyPetal.js';
 import { MyStem } from './MyStem.js';
 import { MyReceptacle } from './MyReceptacle.js';
-import { CGFtexture } from '../../lib/CGF.js';
-import { CGFappearance } from '../../lib/CGF.js';
 import { Colors } from '../utils/Colors.js';
 import { Textures } from '../utils/Textures.js';
+import { MyPolen } from '../bee/MyPolen.js';
 
 // flower default parameters
 const default_params = {
@@ -28,7 +27,7 @@ const default_params = {
  * @param scene - Reference to MyScene object
  */
 export class MyFlower extends CGFobject {
-    constructor(scene, params = default_params) {
+    constructor (scene, params = default_params) {
         super(scene);
 
         this.radius = params.radius;
@@ -41,10 +40,12 @@ export class MyFlower extends CGFobject {
         this.petal_color = params.petal_color;
         this.petal_angle = params.petal_angle + (0.5 - Math.random()) / 2;
         this.receptacle_color = params.receptacle_color;
+        this.polen_rotation = Math.random() * Math.PI / 6;
 
         this.colors = new Colors(scene);
         this.stem = new MyStem(scene, this.stem_height, this.stem_radius, this.stem_inclination);
         this.receptacle = new MyReceptacle(scene, this.receptacle_radius);
+        this.pollen = new MyPolen(scene);
 
         this.petals = [];
         this.petal_color = this.colors.random_color();
@@ -55,7 +56,7 @@ export class MyFlower extends CGFobject {
         this.load_textures();
     }
 
-    load_textures() {
+    load_textures () {
         const textures = new Textures(this.scene);
         this.petal_texture = textures.getTexture("petal");
         this.petal_appearance = new CGFappearance(this.scene);
@@ -86,7 +87,7 @@ export class MyFlower extends CGFobject {
         this.stem_appearance.setShininess(10.0);
     }
 
-    display() {
+    display () {
         let tx = -Math.sin(this.stem_inclination) / 2;
         if (this.stem_height % 2 == 0) tx = -tx;
 
@@ -96,6 +97,15 @@ export class MyFlower extends CGFobject {
             // this.colors.apply(this.receptacle_color);
             this.receptacle_appearance.apply();
             this.receptacle.display();
+            this.scene.pushMatrix();
+            {
+                this.scene.rotate(this.polen_rotation, 1, 0, 1);
+                // this.scene.rotate(this.polen_rotation, 0, 0, 1);
+                this.scene.translate(0, this.receptacle_radius * 1.05, 0);
+                this.scene.scale(0.1, 0.1, 0.1);
+                this.pollen.display();
+            }
+            this.scene.popMatrix();
         }
         this.scene.popMatrix();
 
@@ -114,7 +124,7 @@ export class MyFlower extends CGFobject {
                     this.scene.rotate(2 * i * Math.PI / this.petals_number, 0, 1, 0);
                     this.scene.scale(this.radius, this.radius, this.radius);
                     this.scene.translate(0, 0, -0.5);
-                    this.petals[i].display();
+                    this.petals[ i ].display();
                 }
                 this.scene.popMatrix();
             }

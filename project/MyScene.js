@@ -59,13 +59,12 @@ export class MyScene extends CGFscene {
         this.rock = new MyRock(this);
         this.rock_set = new MyRockSet(this);
         this.garden = new MyGarden(this, 5, 5);
-        this.polen = new MyPolen(this);
 
         this.bee = new MyBee(this, 0, 0, 0);
 
         // Objects connected to MyInterface
         this.displayAxis = true;
-        this.displayGarden = false;
+        this.displayGarden = true;
         this.displayRockSet = false;
         this.displayBee = false;
         this.displayGrass = false;
@@ -139,8 +138,6 @@ export class MyScene extends CGFscene {
         if (this.displayRockSet) this.rock_set.display();
         if (this.displayBee) this.bee.display();
         if (this.displayGrass) this.grass.display();
-
-        this.polen.display();
 
         var position = this.camera.position.slice(0, 3);
         this.panorama.update_position(position);
