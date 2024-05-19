@@ -25,11 +25,11 @@ import { MySingleGrass } from "./grass/MySingleGrass.js";
  * @constructor
  */
 export class MyScene extends CGFscene {
-    constructor() {
+    constructor () {
         super();
     }
 
-    init(application) {
+    init (application) {
         super.init(application);
         this.initCameras();
         this.initLights();
@@ -78,14 +78,14 @@ export class MyScene extends CGFscene {
         this.setUpdatePeriod(100);
     }
 
-    initLights() {
-        this.lights[0].setPosition(15, 0, 5, 1);
-        this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-        this.lights[0].enable();
-        this.lights[0].update();
+    initLights () {
+        this.lights[ 0 ].setPosition(15, 0, 5, 1);
+        this.lights[ 0 ].setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.lights[ 0 ].enable();
+        this.lights[ 0 ].update();
     }
 
-    initCameras() {
+    initCameras () {
         this.camera = new CGFcamera(
             1.0,
             0.1,
@@ -95,14 +95,14 @@ export class MyScene extends CGFscene {
         );
     }
 
-    setDefaultAppearance() {
+    setDefaultAppearance () {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
     }
 
-    display() {
+    display () {
         // ---- BEGIN Background, camera and axis setup
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -136,7 +136,8 @@ export class MyScene extends CGFscene {
         this.singleGrass.display();
     }
 
-    update(t) {
+    update (t) {
         this.bee.update(t);
+        this.singleGrass.update(t);
     }
 }
