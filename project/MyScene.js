@@ -66,6 +66,7 @@ export class MyScene extends CGFscene {
         this.displayGarden = false;
         this.displayRockSet = false;
         this.displayBee = true;
+        this.displayGrass = false;
         this.scaleFactor = 1;
         this.speedFactor = 1;
 
@@ -134,13 +135,12 @@ export class MyScene extends CGFscene {
 
         if (this.displayGarden) this.garden.display();
         if (this.displayRockSet) this.rock_set.display();
-        // if (this.displayBee) this.bee.display();
+        if (this.displayBee) this.bee.display();
+        if (this.displayGrass) this.grass.display();
 
         var position = this.camera.position.slice(0, 3);
         this.panorama.update_position(position);
         this.panorama.display();
-
-        this.grass.display();
     }
 
     update (t) {
