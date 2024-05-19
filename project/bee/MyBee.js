@@ -2,6 +2,7 @@ import { CGFobject, CGFappearance } from "../../lib/CGF.js";
 import { MySphere } from "../shapes/MySphere.js";
 import { Textures } from "../utils/Textures.js";
 import { Colors } from "../utils/Colors.js";
+import { MyPolen } from "./MyPolen.js";
 
 /**
  * MyBee
@@ -251,6 +252,15 @@ export class MyBee extends CGFobject {
         }
         this.scene.popMatrix();
 
+        if (this.carry_pollen) {
+            this.scene.pushMatrix();
+            {
+                this.scene.translate(-1.5, 3, 1);
+                this.carry_pollen.display();
+            }
+            this.scene.popMatrix();
+        }
+
         this.scene.gl.blendFunc(
             this.scene.gl.SRC_ALPHA,
             this.scene.gl.ONE_MINUS_SRC_ALPHA
@@ -311,7 +321,12 @@ export class MyBee extends CGFobject {
 
     // Update bee
     // Need to animate wings as well
-    update (t, scaleFactor, speedFactor) {
+    update (t, scaleFactor, speedFactor, flower = null) {
+        this.flower = flower;
+
+        // Animate wings
+        this.wingAngle = (Math.sin((t / 1000) * 10) * Math.PI) / 2;
+
         if (this.lastUpdate == 0) {
             this.lastUpdate = t;
             return;
@@ -347,9 +362,6 @@ export class MyBee extends CGFobject {
 
         // Animate bee up and down
         this.y = Math.sin((t / 1000) * 2);
-
-        // Animate wings
-        this.wingAngle = (Math.sin((t / 1000) * 10) * Math.PI) / 2;
     }
 
     // Adjust orientation
@@ -395,6 +407,7 @@ export class MyBee extends CGFobject {
             this.inHive = false;
         }
         if (this.scene.gui.isKeyPressed("KeyF") && !this.hasPollen) {
+            console.log(this.flower);
             this.pickingUpPollen = true;
             this.previousY = this.y;
             this.resumingAfterPollen = false;
@@ -413,9 +426,16 @@ export class MyBee extends CGFobject {
 
     // Pick up pollen
     pickUpPollen (t) {
-        let pollenPosition = { x: 5, y: -5, z: 5 };
+        if (this.flower == null || this.flower.pollen == null) {
+            this.pickingUpPollen = false;
+            return;
+        }
+
+        let pollenPosition = this.flower.position;
 
         if (this.hasPollen) {
+            this.carry_pollen = new MyPolen(this.scene);
+            this.flower.pollen = null;
             this.y = Math.sin((t / 1000) * 2) + pollenPosition.y + 0.5;
             return;
         }
@@ -468,7 +488,7 @@ export class MyBee extends CGFobject {
     }
 
     returnToHive (t) {
-        let hivePosition = { x: 0, y: 10, z: 0 };
+        let hivePosition = this.hive_position;
 
         if (this.inHive) {
             this.y = Math.sin((t / 1000) * 2) + hivePosition.y + 0.5;
@@ -482,8 +502,10 @@ export class MyBee extends CGFobject {
         let distance = Math.hypot(dx, dy, dz);
 
         if (distance < 0.5) {
+            this.scene.hive.pollens.push(this.flower.pollen);
             this.inHive = true;
             this.droppingPollen = false;
+            this.carry_pollen = null;
             return;
         }
 

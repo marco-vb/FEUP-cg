@@ -20,6 +20,7 @@ import { MyRockSet } from "./rocks/MyRockSet.js";
 import { MyBee } from "./bee/MyBee.js";
 import { MyGrass } from "./grass/MyGrass.js";
 import { MyPolen } from "./bee/MyPolen.js";
+import { MyHive } from "./bee/MyHive.js";
 
 /**
  * MyScene
@@ -49,29 +50,31 @@ export class MyScene extends CGFscene {
         this.plane = new MyPlane(this, 30);
         // this.sphere = new MySphere(this);
         var position = this.camera.position.slice(0, 3);
-        this.panorama = new MyPanorama(
-            this,
-            new CGFtexture(this, "images/panorama4.jpg"),
-            position
-        );
-        this.flower = new MyFlower(this);
-        this.garden = new MyGarden(this, 5, 5);
-        this.rock = new MyRock(this);
-        this.rock_set = new MyRockSet(this);
-        this.garden = new MyGarden(this, 5, 5);
+        this.panorama = new MyPanorama(this, new CGFtexture(this, "images/panorama4.jpg"), position);
 
+        const garden_position = { x: 5, y: -10, z: 20 };
+        this.garden = new MyGarden(this, 5, 5, garden_position);
+
+        const rocks_position = { x: -10, y: 0, z: -10 };
+        this.rock_set = new MyRockSet(this, rocks_position);
+
+        const hive_position = { x: -10, y: 6, z: -10 };
+        this.hive = new MyHive(this, hive_position);
+        this.grass = new MyGrass(this);
         this.bee = new MyBee(this, 0, 0, 0);
 
+        this.bee.hive_position = hive_position;
+        this.bee.hive_position.y += 5;
+
         // Objects connected to MyInterface
-        this.displayAxis = true;
+        this.displayAxis = false;
         this.displayGarden = true;
-        this.displayRockSet = false;
-        this.displayBee = false;
+        this.displayRockSet = true;
+        this.displayBee = true;
         this.displayGrass = false;
         this.scaleFactor = 1;
         this.speedFactor = 1;
 
-        this.grass = new MyGrass(this);
 
         // Objects connected to MyInterface
         this.displayAxis = true;
@@ -138,6 +141,7 @@ export class MyScene extends CGFscene {
         if (this.displayRockSet) this.rock_set.display();
         if (this.displayBee) this.bee.display();
         if (this.displayGrass) this.grass.display();
+        this.hive.display();
 
         var position = this.camera.position.slice(0, 3);
         this.panorama.update_position(position);
@@ -145,7 +149,16 @@ export class MyScene extends CGFscene {
     }
 
     update (t) {
-        this.bee.update(t, this.scaleFactor, this.speedFactor);
+        let next_flower = this.bee.flower;
+        if (!this.bee.hasPollen) {
+            for (const flower of this.garden.garden.flat()) {
+                if (flower.pollen) {
+                    next_flower = flower;
+                    break;
+                }
+            }
+        }
+        this.bee.update(t, this.scaleFactor, this.speedFactor, next_flower);
         this.grass.update(t);
     }
 }

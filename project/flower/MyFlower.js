@@ -47,6 +47,8 @@ export class MyFlower extends CGFobject {
         this.receptacle = new MyReceptacle(scene, this.receptacle_radius);
         this.pollen = new MyPolen(scene);
 
+        this.height = this.stem_height + this.radius;
+
         this.petals = [];
         this.petal_color = this.colors.random_color();
         for (var i = 0; i < this.petals_number; i++) {
@@ -97,15 +99,18 @@ export class MyFlower extends CGFobject {
             // this.colors.apply(this.receptacle_color);
             this.receptacle_appearance.apply();
             this.receptacle.display();
-            this.scene.pushMatrix();
-            {
-                this.scene.rotate(this.polen_rotation, 1, 0, 1);
-                // this.scene.rotate(this.polen_rotation, 0, 0, 1);
-                this.scene.translate(0, this.receptacle_radius * 1.05, 0);
-                this.scene.scale(0.1, 0.1, 0.1);
-                this.pollen.display();
+
+            if (this.pollen) {
+                this.scene.pushMatrix();
+                {
+                    this.scene.rotate(this.polen_rotation * 10, 0, 1, 0);
+                    this.scene.rotate(this.polen_rotation, 1, 0, 1);
+                    this.scene.translate(0, this.receptacle_radius * 1.05, 0);
+                    this.scene.scale(0.1, 0.1, 0.1);
+                    this.pollen.display();
+                }
+                this.scene.popMatrix();
             }
-            this.scene.popMatrix();
         }
         this.scene.popMatrix();
 
@@ -116,7 +121,6 @@ export class MyFlower extends CGFobject {
         this.scene.pushMatrix();
         {
             this.scene.translate(tx, this.stem_height + this.radius / 6, 0);
-            // this.colors.apply(this.petal_color);
             this.petal_appearance.apply();
             for (var i = 0; i < this.petals_number; i++) {
                 this.scene.pushMatrix();
