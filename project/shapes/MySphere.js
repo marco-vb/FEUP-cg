@@ -8,7 +8,7 @@ import { CGFobject } from '../../lib/CGF.js';
  * @param stacks - Number of stacks
  */
 export class MySphere extends CGFobject {
-    constructor(scene, inverted = false, slices = 20, stacks = 20, deformed = false) {
+    constructor (scene, inverted = false, slices = 20, stacks = 20, deformed = false) {
         super(scene);
         this.slices = slices;
         this.stacks = stacks;
@@ -17,7 +17,7 @@ export class MySphere extends CGFobject {
         this.initBuffers();
     }
 
-    initBuffers() {
+    initBuffers () {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
@@ -68,7 +68,7 @@ export class MySphere extends CGFobject {
         this.initGLBuffers();
     }
 
-    display() {
+    display () {
         super.display();
     }
 }

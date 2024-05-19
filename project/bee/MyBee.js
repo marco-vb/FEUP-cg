@@ -1,7 +1,7 @@
 import { CGFobject, CGFappearance } from "../../lib/CGF.js";
-import { MySphere } from "./shapes/MySphere.js";
-import { Textures } from "./utils/Textures.js";
-import { Colors } from "./utils/Colors.js";
+import { MySphere } from "../shapes/MySphere.js";
+import { Textures } from "../utils/Textures.js";
+import { Colors } from "../utils/Colors.js";
 
 /**
  * MyBee

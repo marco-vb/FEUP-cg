@@ -17,8 +17,9 @@ import { MyFlower } from "./flower/MyFlower.js";
 import { MyGarden } from "./flower/MyGarden.js";
 import { MyRock } from "./rocks/MyRock.js";
 import { MyRockSet } from "./rocks/MyRockSet.js";
-import { MyBee } from "./MyBee.js";
+import { MyBee } from "./bee/MyBee.js";
 import { MyGrass } from "./grass/MyGrass.js";
+import { MyPolen } from "./bee/MyPolen.js";
 
 /**
  * MyScene
@@ -58,6 +59,7 @@ export class MyScene extends CGFscene {
         this.rock = new MyRock(this);
         this.rock_set = new MyRockSet(this);
         this.garden = new MyGarden(this, 5, 5);
+        this.polen = new MyPolen(this);
 
         this.bee = new MyBee(this, 0, 0, 0);
 
@@ -65,7 +67,7 @@ export class MyScene extends CGFscene {
         this.displayAxis = true;
         this.displayGarden = false;
         this.displayRockSet = false;
-        this.displayBee = true;
+        this.displayBee = false;
         this.displayGrass = false;
         this.scaleFactor = 1;
         this.speedFactor = 1;
@@ -137,6 +139,8 @@ export class MyScene extends CGFscene {
         if (this.displayRockSet) this.rock_set.display();
         if (this.displayBee) this.bee.display();
         if (this.displayGrass) this.grass.display();
+
+        this.polen.display();
 
         var position = this.camera.position.slice(0, 3);
         this.panorama.update_position(position);
