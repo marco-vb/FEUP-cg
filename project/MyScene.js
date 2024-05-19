@@ -18,7 +18,7 @@ import { MyGarden } from "./flower/MyGarden.js";
 import { MyRock } from "./rocks/MyRock.js";
 import { MyRockSet } from "./rocks/MyRockSet.js";
 import { MyBee } from "./MyBee.js";
-import { MySingleGrass } from "./grass/MySingleGrass.js";
+import { MyGrass } from "./grass/MyGrass.js";
 
 /**
  * MyScene
@@ -69,7 +69,7 @@ export class MyScene extends CGFscene {
         this.scaleFactor = 1;
         this.speedFactor = 1;
 
-        this.singleGrass = new MySingleGrass(this);
+        this.grass = new MyGrass(this);
 
         // Objects connected to MyInterface
         this.displayAxis = true;
@@ -140,11 +140,11 @@ export class MyScene extends CGFscene {
         this.panorama.update_position(position);
         this.panorama.display();
 
-        this.singleGrass.display();
+        this.grass.display();
     }
 
     update (t) {
         this.bee.update(t, this.scaleFactor, this.speedFactor);
-        this.singleGrass.update(t);
+        this.grass.update(t);
     }
 }

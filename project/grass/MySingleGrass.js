@@ -1,5 +1,5 @@
 import { CGFobject, CGFshader, CGFappearance } from "../../lib/CGF.js";
-import { Colors } from "../utils/Colors.js";
+import { Shaders } from "../utils/Shaders.js";
 import { Textures } from "../utils/Textures.js";
 
 /**
@@ -8,9 +8,14 @@ import { Textures } from "../utils/Textures.js";
 export class MySingleGrass extends CGFobject {
     constructor (scene) {
         super(scene);
-        this.shader = new CGFshader(this.scene.gl, "shaders/grass.vert", "shaders/grass.frag");
+        this.shaders = new Shaders(this.scene);
+        this.shader = this.shaders.getTexture("grass");
+
         this.textures = new Textures(this.scene);
         this.texture = this.textures.getTexture("grass");
+
+        this.random = Math.random() * 1000;
+
         this.appearance = new CGFappearance(this.scene);
         this.appearance.setTexture(this.texture);
         this.appearance.setAmbient(0.0, 0.0, 0.0, 1);
@@ -18,11 +23,12 @@ export class MySingleGrass extends CGFobject {
         this.appearance.setSpecular(0.0, 0.0, 0.0, 1);
         this.appearance.setShininess(10.0);
         this.appearance.setTextureWrap("REPEAT", "REPEAT");
+
         this.initBuffers();
     }
 
     initBuffers () {
-        const layers = 30;
+        const layers = 30 + Math.floor(Math.random() * 10);
         let step = 1 / layers,
             xl = -1,
             xr = 1,
@@ -36,8 +42,8 @@ export class MySingleGrass extends CGFobject {
         for (let i = 0; i < layers; i++) {
             this.vertices.push(xr, y, 0);
             this.vertices.push(xl, y, 0);
-            this.vertices.push(xr - step, y + 3 * step, 0);
-            this.vertices.push(xl + step, y + 3 * step, 0);
+            this.vertices.push(xr - step, y + layers / 10 * step, 0);
+            this.vertices.push(xl + step, y + layers / 10 * step, 0);
 
             this.indices.push(4 * i, 4 * i + 1, 4 * i + 2);
             this.indices.push(4 * i + 1, 4 * i + 2, 4 * i + 3);
@@ -49,12 +55,12 @@ export class MySingleGrass extends CGFobject {
             this.normals.push(0, 0, 1);
             this.normals.push(0, 0, 1);
 
-            this.texCoords.push(0, 0);
-            this.texCoords.push(0, 1);
-            this.texCoords.push(1, 0);
-            this.texCoords.push(1, 1);
+            this.texCoords.push(1, y / layers);
+            this.texCoords.push(0, y / layers);
+            this.texCoords.push(1, (y + layers / 10 * step) / layers);
+            this.texCoords.push(0, (y + layers / 10 * step) / layers);
 
-            y += 3 * step;
+            y += layers / 10 * step;
             xl += step;
             xr -= step;
         }
@@ -64,15 +70,14 @@ export class MySingleGrass extends CGFobject {
     }
 
     update (t) {
+        t += this.random;
         this.time = (t % 1001) / 1000;
         this.time *= Math.PI * 2;
     }
 
     display () {
         this.appearance.apply();
-        this.scene.setActiveShader(this.shader);
         this.shader.setUniformsValues({ uSampler2: 1, time: this.time });
         super.display();
-        this.scene.setActiveShader(this.scene.defaultShader);
     }
 }
