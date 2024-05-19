@@ -12,9 +12,12 @@ varying vec2 vTextureCoord;
 
 void main() {
 
-    float windStrength = 0.1; 
-    float windFrequency = 3.0;
-    float displacement = windStrength * sin(aVertexPosition.y * windFrequency + time) - aVertexPosition.y / 10.0;
+    float windStrength = 0.2; 
+    float windFrequency = 0.5;
+    float y = aVertexPosition.y;
+    float displacement = windStrength * y * y * sin(windFrequency * time);
+
+    if (displacement > 0.0) displacement = -displacement;
 
     if (aVertexPosition.y == 0.0) displacement = 0.0;
 

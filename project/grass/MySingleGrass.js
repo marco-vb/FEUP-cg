@@ -64,7 +64,8 @@ export class MySingleGrass extends CGFobject {
     }
 
     update (t) {
-        this.time = t / 100 % 100;
+        this.time = (t % 1001) / 1000;
+        this.time *= Math.PI * 2;
     }
 
     display () {
