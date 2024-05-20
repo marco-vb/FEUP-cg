@@ -154,13 +154,15 @@ export class MyScene extends CGFscene {
                 }
             }
         }
+        if (this.updatedView && !this.beeView) {
+            this.camera.setPosition(vec3.fromValues(50, 10, 15));
+            this.camera.setTarget(vec3.fromValues(0, 0, 0));
+            this.updatedView = false;
+        }
         if (this.beeView) {
             this.camera.setPosition(vec3.fromValues(this.bee.x, this.bee.y + 10, this.bee.z - 10));
             this.camera.setTarget(vec3.fromValues(this.bee.x, this.bee.y, this.bee.z));
-        }
-        else {
-            this.camera.setPosition(vec3.fromValues(50, 10, 15));
-            this.camera.setTarget(vec3.fromValues(0, 0, 0));
+            this.updatedView = true;
         }
         this.bee.update(t, this.scaleFactor, this.speedFactor, next_flower);
         this.grass.update(t);
