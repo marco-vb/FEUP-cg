@@ -530,7 +530,7 @@ export class MyBee extends CGFobject {
          * making it look like a parabola.
         */
         this.x += (dx / distance) * 0.5;
-        this.y += Math.max(dy * 0.1, 0.01); // guarantee it always reaches needed height
+        this.y += Math.sign(dy) * Math.max(Math.abs(dy * 0.1), 0.01); // guarantee it always reaches needed height
         this.z += (dz / distance) * 0.5;
     }
 }

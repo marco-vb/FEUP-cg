@@ -7,19 +7,11 @@ import {
     CGFtexture,
 } from "../lib/CGF.js";
 import { MyPlane } from "./shapes/MyPlane.js";
-import { MySphere } from "./shapes/MySphere.js";
 import { MyPanorama } from "./MyPanorama.js";
-import { MyStem } from "./flower/MyStem.js";
-import { MyCilinder } from "./shapes/MyCilinder.js";
-import { MyReceptacle } from "./flower/MyReceptacle.js";
-import { MyPetal } from "./flower/MyPetal.js";
-import { MyFlower } from "./flower/MyFlower.js";
 import { MyGarden } from "./flower/MyGarden.js";
-import { MyRock } from "./rocks/MyRock.js";
 import { MyRockSet } from "./rocks/MyRockSet.js";
 import { MyBee } from "./bee/MyBee.js";
 import { MyGrass } from "./grass/MyGrass.js";
-import { MyPolen } from "./bee/MyPolen.js";
 import { MyHive } from "./bee/MyHive.js";
 
 /**
@@ -52,15 +44,17 @@ export class MyScene extends CGFscene {
         var position = this.camera.position.slice(0, 3);
         this.panorama = new MyPanorama(this, new CGFtexture(this, "images/panorama4.jpg"), position);
 
-        const garden_position = { x: 5, y: -10, z: 20 };
+        const garden_position = { x: 5, y: -20, z: 20 };
         this.garden = new MyGarden(this, 5, 5, garden_position);
 
-        const rocks_position = { x: -10, y: 0, z: -10 };
+        const rocks_position = { x: -10, y: -20, z: -10 };
         this.rock_set = new MyRockSet(this, rocks_position);
 
-        const hive_position = { x: -10, y: 6, z: -10 };
+        const hive_position = { x: -10, y: -14, z: -10 };
         this.hive = new MyHive(this, hive_position);
-        this.grass = new MyGrass(this);
+
+        const grass_position = { x: 0, y: -20, z: 0 };
+        this.grass = new MyGrass(this, grass_position);
         this.bee = new MyBee(this, 0, 0, 0);
 
         this.bee.hive_position = hive_position;
@@ -71,7 +65,7 @@ export class MyScene extends CGFscene {
         this.displayGarden = true;
         this.displayRockSet = true;
         this.displayBee = true;
-        this.displayGrass = false;
+        this.displayGrass = true;
         this.scaleFactor = 1;
         this.speedFactor = 1;
 
@@ -80,10 +74,10 @@ export class MyScene extends CGFscene {
         this.displayAxis = true;
         this.scaleFactor = 1;
 
-        // this.texture = new CGFtexture(this, "images/earth.jpg");
+        this.texture = new CGFtexture(this, "images/earth.jpg");
         this.appearance = new CGFappearance(this);
-        // this.appearance.setTexture(this.texture);
         this.appearance.setTextureWrap("REPEAT", "REPEAT");
+        this.appearance.setTexture(this.texture);
         this.appearance.setAmbient(1, 1, 1, 1);
         this.appearance.setDiffuse(1, 1, 1, 1);
         this.appearance.setSpecular(1, 1, 1, 1);
@@ -130,11 +124,13 @@ export class MyScene extends CGFscene {
         if (this.displayAxis) this.axis.display();
 
         this.pushMatrix();
-        this.appearance.apply();
-        this.translate(0, -100, 0);
-        this.scale(400, 400, 400);
-        this.rotate(-Math.PI / 2.0, 1, 0, 0);
-        // this.plane.display();
+        {
+            this.appearance.apply();
+            this.translate(0, -20, 0);
+            this.scale(200, 200, 200);
+            this.rotate(-Math.PI / 2.0, 1, 0, 0);
+            this.plane.display();
+        }
         this.popMatrix();
 
         if (this.displayGarden) this.garden.display();

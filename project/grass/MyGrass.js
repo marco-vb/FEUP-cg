@@ -7,12 +7,13 @@ import { Shaders } from "../utils/Shaders.js";
  * MyGrass
  */
 export class MyGrass extends CGFobject {
-    constructor (scene) {
+    constructor (scene, position) {
         super(scene);
+        this.position = position;
         const shaders = new Shaders(this.scene);
         this.shader = shaders.getTexture("grass");
         this.grass = [];
-        this.n = 50;
+        this.n = 100;
         this.init();
     }
 
@@ -24,7 +25,9 @@ export class MyGrass extends CGFobject {
 
         this.randoms = [];
         for (let i = 0; i < n; i++) {
-            this.randoms.push([ (Math.random() - 0.5) * 0.5, (Math.random() - 0.5) * 0.1 ]);
+            const x = Math.random() * 200 - 100;
+            const z = Math.random() * 200 - 100;
+            this.randoms.push([ x, z ]);
         }
     }
 
@@ -38,15 +41,15 @@ export class MyGrass extends CGFobject {
         this.scene.setActiveShader(this.shader);
         this.scene.pushMatrix();
         {
-            this.scene.translate(-25, 0, -25);
+            this.scene.translate(this.position.x, this.position.y, this.position.z);
             const n = this.n;
             for (let i = 0; i < n; i++) {
                 for (let j = 0; j < n; j++) {
-                    const randi = this.randoms[ i * n + j ][ 0 ];
-                    const randj = this.randoms[ i * n + j ][ 1 ];
+                    const x = this.randoms[ i * n + j ][ 0 ];
+                    const z = this.randoms[ i * n + j ][ 1 ];
                     this.scene.pushMatrix();
                     {
-                        this.scene.translate(randi + 2 * i, 0, randj + j);
+                        this.scene.translate(x, 0, z);
                         this.grass[ i * n + j ].display();
                     }
                     this.scene.popMatrix();

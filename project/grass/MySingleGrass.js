@@ -71,13 +71,20 @@ export class MySingleGrass extends CGFobject {
 
     update (t) {
         t += this.random;
-        this.time = (t % 1001) / 1000;
-        this.time *= Math.PI * 2;
+        this.time = (t % 10001) / 10000;
+        this.time *= Math.PI * 4;
+        this.time -= Math.PI * 2;
     }
 
     display () {
         this.appearance.apply();
         this.shader.setUniformsValues({ uSampler2: 1, time: this.time });
-        super.display();
+        this.scene.pushMatrix();
+        {
+            this.scene.scale(0.25, 1.5, 0.25);
+            this.scene.rotate(Math.PI / 2, 0, 1, 0);
+            super.display();
+        }
+        this.scene.popMatrix();
     }
 }
