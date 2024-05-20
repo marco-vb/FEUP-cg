@@ -426,12 +426,18 @@ export class MyBee extends CGFobject {
 
     // Pick up pollen
     pickUpPollen (t) {
+        let pollenPosition = this.flower.position;
+
         if (this.flower == null || this.flower.pollen == null) {
-            this.pickingUpPollen = false;
+            if (Math.abs(this.y) > 0.3) {
+                this.y -= this.y * 0.2;
+            } else {
+                this.y = 0;
+                this.pickingUpPollen = false;
+            }
             return;
         }
 
-        let pollenPosition = this.flower.position;
 
         if (this.hasPollen) {
             this.carry_pollen = new MyPolen(this.scene);
@@ -441,32 +447,36 @@ export class MyBee extends CGFobject {
         }
 
         let dx = pollenPosition.x - this.x;
+        let dy = pollenPosition.y - this.y;
         let dz = pollenPosition.z - this.z;
 
-        let distance = Math.hypot(dx, dz);
+        let distance = Math.hypot(dx, dy, dz);
+        let xz_distance = Math.hypot(dx, dz);
 
-        if (distance < 0.5) {
-            let dy = pollenPosition.y - this.y;
-            this.y += dy * 0.2;
-
-            if (Math.abs(dy) < 0.1) {
-                this.hasPollen = true;
-            }
-
+        if (distance < 0.3) {
+            this.hasPollen = true;
             return;
         }
 
         let orientation = Math.atan2(dx, dz);
         this.orientation = orientation;
 
+
+        /**
+         * Note: This makes a parabola because dy will be increasingly smaller
+         * which means that if we always update y as a linear function of  dy
+         * the rate at which the bee goes down will be slower and slower
+         * making it look like a parabola.
+        */
+
+        this.x += (dx / distance) * 0.5;
+        // if (xz_distance < 12) this.y += dy * 0.2;    // only starts going down when close to the flower
+        this.y += Math.sign(dy) * Math.max(Math.abs(dy * 0.1), 0.01); // guarantee it always reaches needed height
+        this.z += (dz / distance) * 0.5;
+
         this.previousDx = dx;
         this.previousDz = dz;
         this.previousSpeed = this.speed;
-
-        this.x += (dx / distance) * 0.5;
-        this.z += (dz / distance) * 0.5;
-
-        return;
     }
 
     continueMovement () {
@@ -500,6 +510,7 @@ export class MyBee extends CGFobject {
         let dz = hivePosition.z - this.z;
 
         let distance = Math.hypot(dx, dy, dz);
+        let xz_distance = Math.hypot(dx, dz);
 
         if (distance < 0.5) {
             this.scene.hive.pollens.push(this.flower.pollen);
@@ -512,8 +523,14 @@ export class MyBee extends CGFobject {
         let orientation = Math.atan2(dx, dz);
         this.orientation = orientation;
 
+        /**
+         * Note: This makes a parabola because dy will be increasingly smaller
+         * which means that if we always update y as a linear function of dy
+         * the rate at which the bee goes up will be slower and slower
+         * making it look like a parabola.
+        */
         this.x += (dx / distance) * 0.5;
-        this.y += (dy / distance) * 0.5;
+        this.y += Math.max(dy * 0.1, 0.01); // guarantee it always reaches needed height
         this.z += (dz / distance) * 0.5;
     }
 }
