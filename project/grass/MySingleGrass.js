@@ -81,7 +81,7 @@ export class MySingleGrass extends CGFobject {
         this.shader.setUniformsValues({ uSampler2: 1, time: this.time });
         this.scene.pushMatrix();
         {
-            this.scene.scale(0.25, 1.5, 0.25);
+            this.scene.scale(0.25, 1, 0.25);
             this.scene.rotate(Math.PI / 2, 0, 1, 0);
             super.display();
         }

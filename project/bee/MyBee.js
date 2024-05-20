@@ -17,6 +17,7 @@ export class MyBee extends CGFobject {
         this.scale = 0.5;
 
         // Position
+        this.position = { x: x, y: y, z: z };
         this.x = x;
         this.y = y;
         this.z = z;

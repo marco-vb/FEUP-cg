@@ -68,7 +68,7 @@ export class MyScene extends CGFscene {
         this.displayGrass = true;
         this.scaleFactor = 1;
         this.speedFactor = 1;
-
+        this.beeView = false;
 
         // Objects connected to MyInterface
         this.displayAxis = true;
@@ -153,6 +153,14 @@ export class MyScene extends CGFscene {
                     break;
                 }
             }
+        }
+        if (this.beeView) {
+            this.camera.setPosition(vec3.fromValues(this.bee.x, this.bee.y + 10, this.bee.z - 10));
+            this.camera.setTarget(vec3.fromValues(this.bee.x, this.bee.y, this.bee.z));
+        }
+        else {
+            this.camera.setPosition(vec3.fromValues(50, 10, 15));
+            this.camera.setTarget(vec3.fromValues(0, 0, 0));
         }
         this.bee.update(t, this.scaleFactor, this.speedFactor, next_flower);
         this.grass.update(t);
